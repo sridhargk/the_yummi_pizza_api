@@ -18,8 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('name', 60);
             $table->text('delivery_address');
             $table->text('locality');
-            $table->bigInteger('customer_id', false, true);
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->bigInteger('customer_id', false, true); 
             $table->integer('total_quantity');
             $table->double('total_amount', 5, 2);
             $table->float('tax', 5, 2);
