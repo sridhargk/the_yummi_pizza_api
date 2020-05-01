@@ -12,8 +12,14 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('/customers', 'API\CustomerController');
+Route::apiResource('/products', 'API\ProductController');
+Route::apiResource('/product_categories', 'API\ProductCategoryController');
+Route::apiResource('/orders', 'API\OrderController');
+Route::get('orders/customer/{id}', 'API\OrderController@show_customers');

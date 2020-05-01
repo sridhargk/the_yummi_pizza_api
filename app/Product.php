@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\ProductCategory;
+use App\ProductPrice;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -12,6 +14,16 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'image', 'category_id',
+        'name', 'description', 'image', 'product_category_id',
     ];
+
+    public function prices()
+    {
+        return $this->hasMany(ProductPrice::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class);
+    }
 }
