@@ -37,7 +37,7 @@ class ProductController extends BaseController
                 'name' => 'required|unique:products,name',
                 'description' => 'required',
                 'image' => 'required',
-                'category_id' => 'required',
+                'product_category_id' => 'required',
                 'prices' => 'required',
             ]);
 
@@ -103,7 +103,7 @@ class ProductController extends BaseController
             'name' => 'required|unique:products,name,' . $id,
             'description' => 'required',
             'image' => 'required',
-            'category_id' => 'required',
+            'product_category_id' => 'required',
             'prices' => 'required',
         ]);
 
@@ -120,7 +120,7 @@ class ProductController extends BaseController
         $product->name = $input['name'];
         $product->description = $input['description'];
         $product->image = $input['image'];
-        $product->category_id = $input['category_id'];
+        $product->product_category_id = $input['product_category_id'];
         $product->save();
 
         $prices = array();

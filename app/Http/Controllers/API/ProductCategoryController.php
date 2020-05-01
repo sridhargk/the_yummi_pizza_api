@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Resources\ProductCategoryResource;
+use App\ProductCategory;
 use Illuminate\Http\Request;
+use Validator;
 
-class ProductCategoryController extends Controller
+class ProductCategoryController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $product_category = ProductCategory::all();
+        return $this->sendResponse(ProductCategoryResource::collection($product_category), 'Available product categories');
     }
 
     /**
@@ -25,7 +29,21 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'name' => 'required|unique:product_categories,name',
+            'description' => 'required',
+            'image' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+
+        $product_category = ProductCategory::create($input);
+
+        return $this->sendResponse(new ProductCategoryResource($product_category), 'Product Category created successfully.', 201);
     }
 
     /**
@@ -36,7 +54,13 @@ class ProductCategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $product_category = ProductCategory::find($id);
+
+        if (is_null($product_category)) {
+            return $this->sendError('Product Category not found.', [], 404);
+        }
+
+        return $this->sendResponse(new ProductCategoryResource($product_category), 'Product Category found.', 200);
     }
 
     /**
@@ -48,7 +72,30 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'name' => 'required|unique:product_categories,name,' . $id,
+            'description' => 'required',
+            'image' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+
+        $product_category = ProductCategory::find($id);
+
+        if (is_null($product_category)) {
+            return $this->sendError('Product Category not found.', [], 404);
+        }
+
+        $product_category->name = $input['name'];
+        $product_category->description = $input['description'];
+        $product_category->image = $input['image'];
+        $product_category->save();
+
+        return $this->sendResponse(new ProductCategoryResource($product_category), 'Product Category updated successfully.', 201);
     }
 
     /**
@@ -59,6 +106,15 @@ class ProductCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product_category = ProductCategory::find($id);
+
+        if (is_null($product_category)) {
+            return $this->sendError('Product Category not found.', [], 404);
+        }
+
+        $product_category->products()->delete();
+        $product_category->delete();
+
+        return $this->sendResponse([], 'Product Category deleted successfully.', 204);
     }
 }
