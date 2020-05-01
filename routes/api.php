@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('/customers', 'API\CustomerController');
 Route::apiResource('/products', 'API\ProductController');
 Route::apiResource('/product_categories', 'API\ProductCategoryController');
+Route::apiResource('/orders', 'API\OrderController');
+Route::get('orders/customer/{id}', 'API\OrderController@show_customers');
