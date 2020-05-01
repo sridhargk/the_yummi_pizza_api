@@ -13,7 +13,7 @@ class ProductCategoryController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Controllers\API\BaseController sendError or sendResponse
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class ProductCategoryController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Controllers\API\BaseController sendError or sendResponse
      */
     public function store(Request $request)
     {
@@ -50,7 +50,7 @@ class ProductCategoryController extends BaseController
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Controllers\API\BaseController sendError or sendResponse
      */
     public function show($id)
     {
@@ -68,7 +68,7 @@ class ProductCategoryController extends BaseController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Controllers\API\BaseController sendError or sendResponse
      */
     public function update(Request $request, $id)
     {
@@ -102,7 +102,7 @@ class ProductCategoryController extends BaseController
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Controllers\API\BaseController sendError or sendResponse
      */
     public function destroy($id)
     {
