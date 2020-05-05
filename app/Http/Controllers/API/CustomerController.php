@@ -78,6 +78,29 @@ class CustomerController extends BaseController
     }
 
     /**
+     * Display the specified email related resource .
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return App\Http\Controllers\API\BaseController sendError or sendResponse
+     */
+    public function show_customer_by_email(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'email' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Enter a valid email address', $validator->errors(), 400);
+        }
+
+        $customers = Customer::where('email', $input["email"])->get();
+
+        return $this->sendResponse(CustomerResource::collection($customers), 'Customer found.', 200);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
